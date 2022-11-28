@@ -1,10 +1,10 @@
-import { 
-    checkAuth, 
-    createTodo, 
+import {
+    checkAuth,
+    createTodo,
     completeTodo,
     getTodos,
     logout,
-    deleteAllTodos, 
+    deleteAllTodos,
 } from '../fetch-utils.js';
 import { renderTodo } from '../render-utils.js';
 
@@ -17,35 +17,58 @@ const deleteButton = document.querySelector('.delete-button');
 
 todoForm.addEventListener('submit', async (e) => {
     // on submit, create a todo, reset the form, and display the todos
+    e.preventDefault();
+    const formData = new FormData(todoForm);
+    const todo = formData.get('todo');
+    await createTodo(todo);
+
+    todoForm.reset();
+    displayTodos();
 });
 
 // create todo state
 
 // add async complete todo handler function
-    // call completeTodo
-    // swap out todo in array
-    // call displayTodos
-
-   
+// call completeTodo
+// swap out todo in array
+// call displayTodos
 
 async function displayTodos() {
     // clear the container (.innerHTML = '')
-    // display the list of todos, 
-          // call render function, pass in state and complete handler function!
-          // append to .todos
+    const todos = await getTodos();
+
+    todosEl.textContent = '';
+    // display the list of todos,
+    for (let todo of todos) {
+        // call render function, pass in state and complete handler function!
+        const todoEl = renderTodo(todo);
+
+        todoEl.addEventListener('click', async () => {
+            await completeTodo(todo.id);
+            // call displayTodos
+            displayTodos();
+        });
+
+        todosEl.append(todoEl);
+    }
 }
 
 // add page load function
-    // fetch the todos and store in state
-    // call displayTodos
+window.addEventListener('load', async () => {
+    displayTodos();
+});
+// fetch the todos and store in state
+// append to .todos
 
 logoutButton.addEventListener('click', () => {
     logout();
 });
 
-
 deleteButton.addEventListener('click', async () => {
     // delete all todos
+    deleteAllTodos();
     // modify state to match
+
     // re displayTodos
+    displayTodos();
 });
