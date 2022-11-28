@@ -35,14 +35,26 @@ todoForm.addEventListener('submit', async (e) => {
 
 async function displayTodos() {
     // clear the container (.innerHTML = '')
+    const todos = await getTodos();
+
+    todosEl.textContent = '';
     // display the list of todos,
-    // call render function, pass in state and complete handler function!
-    // append to .todos
+    for (let todo of todos) {
+        // call render function, pass in state and complete handler function!
+        const todoEl = renderTodo(todo);
+
+        todoEl.addEventListener('click', async () => {
+            await completeTodo(todo.id);
+            // call displayTodos
+            displayTodos();
+        });
+        // append to .todos
+        todosEl.append(todoEl);
+    }
 }
 
 // add page load function
 // fetch the todos and store in state
-// call displayTodos
 
 logoutButton.addEventListener('click', () => {
     logout();
