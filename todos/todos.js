@@ -48,13 +48,14 @@ async function displayTodos() {
             // call displayTodos
             displayTodos();
         });
-        // append to .todos
+
         todosEl.append(todoEl);
     }
 }
 
 // add page load function
 // fetch the todos and store in state
+// append to .todos
 
 logoutButton.addEventListener('click', () => {
     logout();
@@ -62,6 +63,9 @@ logoutButton.addEventListener('click', () => {
 
 deleteButton.addEventListener('click', async () => {
     // delete all todos
+    deleteAllTodos();
     // modify state to match
+
     // re displayTodos
+    displayTodos();
 });
